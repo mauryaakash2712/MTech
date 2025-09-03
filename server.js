@@ -1,4 +1,6 @@
 const express = require('express');
+const app = express();
+app.set('trust proxy', true);
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
@@ -6,12 +8,10 @@ const jwt = require('jsonwebtoken');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
-
-const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'mtech-secret-maurya-enterprises-2025';
 
-app.set('trust proxy', true);
+
 
 // Security middleware
 app.use(helmet({
@@ -36,7 +36,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json());
+app.use(.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Database setup
@@ -366,6 +366,9 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/', (req, res) => {
+  res.redirect('/api/health');
+});
 // 404 handler
 app.use('*', (req, res) => {
     res.status(404).json({ 
@@ -382,3 +385,7 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+const PORT = process.env.PORT || 3000; // place this near the bottom [26][30]
+app.listen(PORT, () => {
+  console.log(`API listening on port ${PORT}`);
+});
