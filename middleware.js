@@ -41,15 +41,14 @@ app.use(express.json());
 app.use('/api/', apiRateLimit); // rate limit after trust proxy
 
 // Rate limiting middleware
-const apiRateLimit = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
-  // Explicitly allow trusting the X-Forwarded-For header
-  trustProxy: true
+  // disable the permissive trust proxy check
+  validate: { trustProxy: false }
 });
-
 
 // Different rate limits for different endpoints
 const authRateLimit = createRateLimit(15 * 60 * 1000, 5); // 5 attempts per 15 minutes for auth
