@@ -8,7 +8,7 @@ console.log('© 2025 Maurya Enterprises. All rights reserved.');
 const CONFIG = {
     API_URL: 'http://localhost:3000/api',
     PRODUCTION_API: 'https://maurya.enterprises/api',
-    USE_LOCAL_API: true // Change to false for production
+    USE_LOCAL_API: false // Change to false for production
 };
 
 // Get API URL based on environment
