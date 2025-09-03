@@ -34,6 +34,12 @@ const authenticateAdmin = (req, res, next) => {
     });
 };
 
+app.set('trust proxy', true);
+app.use(helmet());
+app.use(cors({ /* your CORS config */ }));
+app.use(express.json());
+app.use('/api/', apiRateLimit); // rate limit after trust proxy
+
 // Rate limiting middleware
 const createRateLimit = (windowMs = 15 * 60 * 1000, max = 100) => {
     return rateLimit({
