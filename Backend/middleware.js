@@ -9,20 +9,19 @@ const helmet = require('helmet');
 
 // Authentication middleware
 const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'Access token required' });
+  }
 
-    if (!token) {
-        return res.status(401).json({ error: 'Access token required' });
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: 'Invalid or expired token' });
     }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ error: 'Invalid or expired token' });
-        }
-        req.user = user;
-        next();
-    });
+    req.user = user;
+    next();
+  });
 };
 
 // Admin authentication middleware
@@ -73,39 +72,31 @@ const securityMiddleware = helmet({
 
 // Input validation middleware
 const validateProductInput = (req, res, next) => {
-    const { name, category, price } = req.body;
-
-    if (!name || typeof name !== 'string' || name.trim().length === 0) {
-        return res.status(400).json({ error: 'Product name is required' });
-    }
-
-    if (!category || typeof category !== 'string') {
-        return res.status(400).json({ error: 'Product category is required' });
-    }
-
-    if (!price || typeof price !== 'number' || price <= 0) {
-        return res.status(400).json({ error: 'Valid product price is required' });
-    }
-
-    next();
+  const { name, category, price } = req.body;
+  if (!name || typeof name !== 'string' || name.trim().length === 0) {
+    return res.status(400).json({ error: 'Product name is required' });
+  }
+  if (!category || typeof category !== 'string') {
+    return res.status(400).json({ error: 'Product category is required' });
+  }
+  if (!price || typeof price !== 'number' || price <= 0) {
+    return res.status(400).json({ error: 'Valid product price is required' });
+  }
+  next();
 };
 
 const validateUserInput = (req, res, next) => {
-    const { name, email, password } = req.body;
-
-    if (!name || typeof name !== 'string' || name.trim().length === 0) {
-        return res.status(400).json({ error: 'Name is required' });
-    }
-
-    if (!email || typeof email !== 'string' || !isValidEmail(email)) {
-        return res.status(400).json({ error: 'Valid email is required' });
-    }
-
-    if (req.method === 'POST' && (!password || typeof password !== 'string' || password.length < 6)) {
-        return res.status(400).json({ error: 'Password must be at least 6 characters long' });
-    }
-
-    next();
+  const { name, email, password } = req.body;
+  if (!name || typeof name !== 'string' || name.trim().length === 0) {
+    return res.status(400).json({ error: 'Name is required' });
+  }
+  if (!email || typeof email !== 'string' || !isValidEmail(email)) {
+    return res.status(400).json({ error: 'Valid email is required' });
+  }
+  if (req.method === 'POST' && (!password || typeof password !== 'string' || password.length < 6)) {
+    return res.status(400).json({ error: 'Password must be at least 6 characters long' });
+  }
+  next();
 };
 
 // Email validation helper
