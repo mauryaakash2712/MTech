@@ -353,6 +353,19 @@ app.use((err, req, res, next) => {
     });
 });
 
+app.get('/', (req, res) => {
+    res.json({
+        message: 'MTech API is running',
+        service: 'MTech API by Maurya Enterprises',
+        endpoints: {
+            health: '/api/health',
+            products: '/api/products',
+            categories: '/api/categories'
+        },
+        documentation: 'https://github.com/mauryaakash2712/MTech'
+    });
+});
+
 // 404 handler
 app.use('*', (req, res) => {
     res.status(404).json({ 
