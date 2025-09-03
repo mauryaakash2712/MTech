@@ -14,6 +14,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    service: 'MTech API',
+    company: 'Maurya Enterprises',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Database setup
 const db = new sqlite3.Database(':memory:');
 
