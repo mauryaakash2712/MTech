@@ -1046,6 +1046,40 @@ window.addEventListener('error', function(event) {
   console.error('MTech App Error:', event.error);
   showToast('An error occurred. Please refresh the page.', 'error');
 });
+// Modal close functions
+function closeCart() {
+    const modal = document.getElementById('cartModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('productModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+        event.target.classList.remove('show');
+    }
+});
+
+// Close modals with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.style.display = 'none';
+            modal.classList.remove('show');
+        });
+    }
+});
 
 console.log('MTech Electronics Store - Frontend loaded successfully!');
 console.log('© 2025 Maurya Enterprises. All rights reserved.');
