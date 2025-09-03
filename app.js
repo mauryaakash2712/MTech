@@ -7,7 +7,7 @@ console.log('© 2025 Maurya Enterprises. All rights reserved.');
 // Configuration
 const CONFIG = {
     API_URL: 'http://localhost:3000/api',
-    PRODUCTION_API: 'https://maurya.enterprises/api',
+    PRODUCTION_API: 'https://mtech-api.onrender.com/api',
     USE_LOCAL_API: false // Change to false for production
 };
 
