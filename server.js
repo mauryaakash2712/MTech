@@ -11,6 +11,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'mtech-secret-maurya-enterprises-2025';
 
+app.set('trust proxy', true);
+
 // Security middleware
 app.use(helmet({
     contentSecurityPolicy: false // Disable for development
